@@ -33,19 +33,19 @@
                         class="page-logo width-mobile-auto m-0 align-items-center justify-content-center p-0 bg-transparent bg-img-none shadow-0 height-9 border-0">
                         <a href="javascript:void(0)" class="page-logo-link press-scale-down d-flex align-items-center">
                             <img src="img/logo.png" alt="SmartAdmin WebApp" aria-roledescription="logo">
-                            <span class="page-logo-text mr-1">Учебный проект</span>
+                            <span class="page-logo-text mr-1">G24 Stalker</span>
                         </a>
                     </div>
                     <span class="text-white opacity-50 ml-auto mr-2 hidden-sm-down">
                             Уже зарегистрированы?
                         </span>
-                    <a href="page_login.html" class="btn-link text-white ml-auto ml-sm-0">
+                    <a href="/login" class="btn-link text-white ml-auto ml-sm-0">
                         Войти
                     </a>
                 </div>
             </div>
             <div class="flex-1"
-                 style="background: url(img/svg/pattern-1.svg) no-repeat center bottom fixed; background-size: cover;">
+                 style="background: url(./img/svg/pattern-1.svg) no-repeat center bottom fixed; background-size: cover;">
                 <div class="container py-4 py-lg-5 my-lg-5 px-4 px-sm-0">
                     <div class="row">
                         <div class="col-xl-12">
@@ -63,18 +63,19 @@
                         <div class="col-xl-6 ml-auto mr-auto">
                             <div class="card p-4 rounded-plus bg-faded">
 
-                                <form id="js-login" novalidate="" action="/register.php" method="post">
+                                <form id="js-login" novalidate="" action="/register" method="post">
+                                    @csrf
                                     <div class="form-group">
                                         <label class="form-label" for="emailverify">Email</label>
-                                        <input type="email" id="emailverify" class="form-control"
+                                        <input type="email" id="emailverify" class="form-control" name="email"
                                                placeholder="Эл. адрес" required>
                                         <div class="invalid-feedback">Заполните поле.</div>
                                         <div class="help-block">Эл. адрес будет вашим логином при авторизации</div>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label" for="userpassword">Пароль <br></label>
-                                        <input type="password" id="userpassword" class="form-control" placeholder=""
-                                               required>
+                                        <input type="password" id="userpassword" class="form-control" name="password"
+                                               placeholder="" required>
                                         <div class="invalid-feedback">Заполните поле.</div>
                                     </div>
 

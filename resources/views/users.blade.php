@@ -2,9 +2,6 @@
 
 @section('content')
     <main id="js-page-content" role="main" class="page-content mt-3">
-        <div class="alert alert-success">
-            Профиль успешно обновлен.
-        </div>
         <div class="subheader">
             <h1 class="subheader-title">
                 <i class='subheader-icon fal fa-users'></i> Список пользователей
@@ -12,8 +9,10 @@
         </div>
         <div class="row">
             <div class="col-xl-12">
-                <a class="btn btn-success" href="create_user.html">Добавить</a>
-
+                @if (Auth::check() && Auth::user()->role == 1)
+                    <a class="btn btn-success" href="/create">Добавить</a>
+                @endif
+                <a class="btn btn-info ml-3" href="/profile">Профиль пользователя</a>
                 <div class="border-faded bg-faded p-3 mb-g d-flex mt-3">
                     <input type="text" id="js-filter-contacts" name="filter-contacts"
                            class="form-control shadow-inset-2 form-control-lg" placeholder="Найти пользователя">
@@ -31,32 +30,38 @@
             </div>
         </div>
         <div class="row" id="js-contacts">
+            @foreach($users as $user)
             <div class="col-xl-4">
                 <div id="c_1" class="card border shadow-0 mb-g shadow-sm-hover" data-filter-tags="oliver kopyov">
                     <div class="card-body border-faded border-top-0 border-left-0 border-right-0 rounded-top">
                         <div class="d-flex flex-row align-items-center">
                                 <span class="status status-success mr-3">
                                     <span class="rounded-circle profile-image d-block "
-                                          style="background-image:url('img/demo/avatars/avatar-b.png'); background-size: cover;"></span>
+                                          style="background-image:url('./img/demo/avatars/avatar-b.png');
+                                           background-size: cover;">
+                                    </span>
                                 </span>
                             <div class="info-card-text flex-1">
                                 <a href="javascript:void(0);" class="fs-xl text-truncate text-truncate-lg text-info"
                                    data-toggle="dropdown" aria-expanded="false">
-                                    Oliver Kopyov
+                                    {{ optional($user->userProfile)->username }}
+                                    @if (Auth::check() && Auth::user()->role == 1 || Auth::user()->id == $user->id)
                                     <i class="fal fas fa-cog fa-fw d-inline-block ml-1 fs-md"></i>
                                     <i class="fal fa-angle-down d-inline-block ml-1 fs-md"></i>
+                                    @endif
                                 </a>
+                                @if (Auth::check() && Auth::user()->role == 1 || Auth::user()->id == $user->id)
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="edit.html">
+                                    <a class="dropdown-item" href="/edit">
                                         <i class="fa fa-edit"></i>
                                         Редактировать</a>
-                                    <a class="dropdown-item" href="security.html">
+                                    <a class="dropdown-item" href="/security">
                                         <i class="fa fa-lock"></i>
                                         Безопасность</a>
-                                    <a class="dropdown-item" href="status.html">
+                                    <a class="dropdown-item" href="/status">
                                         <i class="fa fa-sun"></i>
                                         Установить статус</a>
-                                    <a class="dropdown-item" href="media.html">
+                                    <a class="dropdown-item" href="/avatar">
                                         <i class="fa fa-camera"></i>
                                         Загрузить аватар
                                     </a>
@@ -65,7 +70,8 @@
                                         Удалить
                                     </a>
                                 </div>
-                                <span class="text-truncate text-truncate-xl">IT Director, Gotbootstrap Inc.</span>
+                                @endif
+                                <span class="text-truncate text-truncate-xl">{{ optional($user->userProfile)->job }}</span>
                             </div>
                             <button class="js-expand-btn btn btn-sm btn-default d-none" data-toggle="collapse"
                                     data-target="#c_1 > .card-body + .card-body" aria-expanded="false">
@@ -77,12 +83,12 @@
                     <div class="card-body p-0 collapse show">
                         <div class="p-3">
                             <a href="tel:+13174562564" class="mt-1 d-block fs-sm fw-400 text-dark">
-                                <i class="fas fa-mobile-alt text-muted mr-2"></i> +1 317-456-2564</a>
+                                <i class="fas fa-mobile-alt text-muted mr-2"></i>{{ optional($user->userProfile)->phone }}</a>
                             <a href="mailto:oliver.kopyov@smartadminwebapp.com"
                                class="mt-1 d-block fs-sm fw-400 text-dark">
-                                <i class="fas fa-mouse-pointer text-muted mr-2"></i> oliver.kopyov@smartadminwebapp.com</a>
+                                <i class="fas fa-mouse-pointer text-muted mr-2"></i>{{$user->email}}</a>
                             <address class="fs-sm fw-400 mt-4 text-muted">
-                                <i class="fas fa-map-pin mr-2"></i> 15 Charist St, Detroit, MI, 48212, USA
+                                <i class="fas fa-map-pin mr-2"></i>{{ optional($user->userProfile)->address }}
                             </address>
                             <div class="d-flex flex-row">
                                 <a href="javascript:void(0);" class="mr-2 fs-xxl" style="color:#4680C2">
@@ -99,6 +105,7 @@
                     </div>
                 </div>
             </div>
+            @endforeach
         </div>
     </main>
 @endsection

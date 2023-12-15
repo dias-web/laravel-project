@@ -34,20 +34,40 @@
         </a>
     </div>
     <div class="card p-4 border-top-left-radius-0 border-top-right-radius-0">
-        <form action="" method="post">
+        @if (Session::has('success'))
+            <div class="alert alert-success">
+                {{ Session::get('success') }}
+            </div>
+        @endif
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                @foreach ($errors->all() as $error)
+                    <span>{{ $error }}</span>
+                @endforeach
+            </div>
+        @endif
+        @if (Session::has('auth_required'))
+            <div class="alert alert-warning">
+                {{ Session::get('auth_required') }}
+            </div>
+        @endif
+        <form action="/login" method="post">
+            @csrf
             <div class="form-group">
                 <label class="form-label" for="username">Email</label>
-                <input type="email" id="username" class="form-control" placeholder="Эл. адрес" value="">
+                <input type="email" id="username" class="form-control" name="email"
+                       placeholder="Эл. адрес" value="">
             </div>
             <div class="form-group">
                 <label class="form-label" for="password">Пароль</label>
-                <input type="password" id="password" class="form-control" placeholder="">
+                <input type="password" id="password" class="form-control"
+                       name="password" placeholder="">
             </div>
             <button type="submit" class="btn btn-default float-right">Войти</button>
         </form>
     </div>
     <div class="blankpage-footer text-center">
-        Нет аккаунта? <a href="page_register.html"><strong>Зарегистрироваться</strong></a>
+        Нет аккаунта? <a href="/register"><strong>Зарегистрироваться</strong></a>
     </div>
 </div>
 <video poster="./img/backgrounds/clouds.png" id="bgvid" playsinline autoplay muted loop>

@@ -8,6 +8,7 @@
             </h1>
         </div>
         <form action="">
+            @csrf
             <div class="row">
                 <div class="col-xl-6">
                     <div id="panel-1" class="panel">
